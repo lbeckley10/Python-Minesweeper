@@ -1,0 +1,21 @@
+Spritesheet - each square is 16x16 with 1px in between
+link to spritesheet - http://pixelartmaker.com/art/2e7b17e518d169e
+each tile is 64x64
+
+12/23 - Trying to intialize arrays and spritesheets
+
+1/6 - Have arrays initialized. Trying to figure out spritesheets/display
+
+1/7 - Created display and tile objects. Intial display created.
+
+1/18 - Figured out how to get mouse clicks to detect as well as click positions
+
+1/29 - Implemented mouse clicks on specific tiles, flagging
+
+3/29 - Implemented counting adjacent mines, displaying correct number
+
+4/5 - Implemented revealing all adjacent empty mines when one is clicked
+
+4/6 - Implemented game over when clicked on a mine
+
+4/7 - Implemented game win when all non-mine tiles are revealed
