@@ -41,7 +41,7 @@ class Display:
                     yCount += 1
         pygame.display.flip()
     
-    #Count the adjacent mines for each tile and assign it to trueSprite attribute utilizing Depth-First Search Algorithm
+    #Reveal all adjacent empty tiles utilizing Depth-First Search Algorithm
     def revealAllEmpty(self, board, row, col):
         #Reveal current sprite
         self.getSpriteBoard()[row][col].setVisited(True)
@@ -67,6 +67,38 @@ class Display:
                     if(not self.getSpriteBoard()[i][j].getVisited()):
                         #Recursive call 
                         self.revealAllEmpty(board, i, j)
+
+    #Reveal all adjacent tiles if all mines found at that location
+    def revealIfFound(self, board, row, col):
+        foundAll = True
+        print("Revealed: " + str(self.getSpriteBoard()[row][col].getRevealed()))
+        if(self.getSpriteBoard()[row][col].getRevealed()):
+            #Set bounds for adjacent tile search
+            rLowerBound = row - 1
+            rUpperBound = row + 1
+            cLowerBound = col - 1
+            cUpperBound = col + 1
+            if(row == 0):
+                rLowerBound = 0
+            if(row == 15):
+                rUpperBound = 15
+            if(col == 0):
+                cLowerBound = 0
+            if(col == 15):
+                cUpperBound = 15
+            for i in range(rLowerBound, rUpperBound+1):
+                for j in range(cLowerBound, cUpperBound+1):
+                    if(self.getSpriteBoard()[i][j].getCurrSprite() == "Flag" and self.getSpriteBoard()[i][j].getValue() == 0):
+                        foundAll = False
+                    if(self.getSpriteBoard()[i][j].getCurrSprite() != "Flag" and self.getSpriteBoard()[i][j].getValue() == 1):
+                        foundAll = False
+            print(foundAll)
+            if(foundAll):
+                for i in range(rLowerBound, rUpperBound+1):
+                    for j in range(cLowerBound, cUpperBound+1):
+                        if(self.getSpriteBoard()[i][j].getCurrSprite() != "Flag"):
+                            self.getSpriteBoard()[i][j].setRevealed(True)
+                            self.updateSprite(i,j, self.getSpriteBoard()[i][j].getTrueSprite())
     
     #Assign each tiles adjacentMines and trueSprite attributes
     def setTrueSprites(self, board):
@@ -119,10 +151,13 @@ class Display:
                 self.revealAllEmpty(board, yIndex, xIndex)
                 if(self.getSpriteBoard()[yIndex][xIndex].getTrueSprite() == "Boom"):
                     self.inProgress = False
+                    self.revealAllMines()
                     self.displayLose()
                 if(self.checkWin(board)):
                     self.inProgress = False
                     self.displayWin()
+                self.revealIfFound(board,yIndex,xIndex)
+
                 
                 
     
@@ -146,6 +181,14 @@ class Display:
                 self.displayWin()
         
         
+    #Reveal location of all mines if lost
+    def revealAllMines(self):
+        for i in range (constants.cols):
+            for j in range (constants.rows):
+                if(self.getSpriteBoard()[i][j].getValue() and self.getSpriteBoard()[i][j].getCurrSprite() != "Boom"):
+                    self.getSpriteBoard()[i][j].setCurrSprite("Mine")
+                    self.updateSprite(i, j, self.getSpriteBoard()[i][j].getCurrSprite())
+
     #Displays the Lose Sprite
     def displayLose(self):
         image = SpriteSheet('assets/lose.png').image_at(constants.gameOverSquare)

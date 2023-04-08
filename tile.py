@@ -13,6 +13,7 @@ class Tile:
         self.currSprite = "Covered"
         self.trueSprite = "Empty"
         self.adjacentMines = 0
+        self.value = 0
         self.visited = False
         self.revealed = False
     
@@ -50,6 +51,7 @@ class Tile:
                 self.trueSprite = str(count)
         else:
             self.trueSprite = "Boom"
+            self.value = 1
 
     
 
@@ -99,3 +101,7 @@ class Tile:
     #Function to return the revealed attribute
     def  getRevealed(self):
         return self.revealed
+    
+    #Function to return the value attribute
+    def  getValue(self):
+        return self.value
