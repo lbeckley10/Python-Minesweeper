@@ -8,7 +8,7 @@ rows, cols = (16,16)
 size = [640,640]
 
 #Number of mines
-noOfMines = 30
+noOfMines = 40
 
 #Rectangle for game over sprite
 gameOverSquare = (0,0,22,19)

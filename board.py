@@ -14,17 +14,36 @@ class Board:
     #Place the mines randomly throughout the 
     def generate(self,row,col):
         emptySpots = set()
+        #Add every spot on board to the set of valid spots
         for i in range(16):
             for j in range(16):
-                if((i,j) != (row,col)):
-                    emptySpots.add((i,j))
-        
-        for k in range(constants.noOfMines): 
-            i = random.randint(1,40)
-            j = random.randint(1,40)
-            while(not((i,j) in emptySpots)):
-                i = random.randint(1,40)
-                j = random.randint(1,40)
+                emptySpots.add((i,j))
+        rLowerBound = row - 1
+        rUpperBound = row + 1
+        cLowerBound = col - 1
+        cUpperBound = col + 1
+        if(row == 0):
+            rLowerBound = 0
+            rUpperBound = row + 2
+        if(row == 15):
+            rUpperBound = 15
+            rLowerBound = row - 2
+        if(col == 0):
+            cLowerBound = 0
+            cUpperBound = col + 2
+        if(col == 15):
+            cUpperBound = 15
+            cLowerBound = col - 2
+        offLimits = set()
+        for i in range(rLowerBound, rUpperBound+1):
+            for j in range(cLowerBound, cUpperBound + 1):
+                offLimits.add((i, j))
+        for k in range(constants.noOfMines):
+            i = random.randint(0,15)
+            j = random.randint(0,15)
+            while(not((i,j) in emptySpots) or ((i,j) in offLimits)):
+                i = random.randint(0,15)
+                j = random.randint(0,15)
             emptySpots.remove((i,j))
             self.gameBoard[i][j] = 1
         self.generated = True

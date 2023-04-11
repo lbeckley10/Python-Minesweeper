@@ -47,6 +47,9 @@ class Display:
         self.getSpriteBoard()[row][col].setVisited(True)
         self.getSpriteBoard()[row][col].setRevealed(True)
         self.updateSprite(row,col, self.getSpriteBoard()[row][col].getTrueSprite())
+        if(self.checkWin(board)):
+            self.inProgress = False
+            self.displayWin()
         if(self.getSpriteBoard()[row][col].getTrueSprite() == "Empty"):
 
             #Set bounds for adjacent tile search
@@ -71,7 +74,6 @@ class Display:
     #Reveal all adjacent tiles if all mines found at that location
     def revealIfFound(self, board, row, col):
         foundAll = True
-        print("Revealed: " + str(self.getSpriteBoard()[row][col].getRevealed()))
         if(self.getSpriteBoard()[row][col].getRevealed()):
             #Set bounds for adjacent tile search
             rLowerBound = row - 1
@@ -92,13 +94,14 @@ class Display:
                         foundAll = False
                     if(self.getSpriteBoard()[i][j].getCurrSprite() != "Flag" and self.getSpriteBoard()[i][j].getValue() == 1):
                         foundAll = False
-            print(foundAll)
             if(foundAll):
                 for i in range(rLowerBound, rUpperBound+1):
                     for j in range(cLowerBound, cUpperBound+1):
                         if(self.getSpriteBoard()[i][j].getCurrSprite() != "Flag"):
                             self.getSpriteBoard()[i][j].setRevealed(True)
                             self.updateSprite(i,j, self.getSpriteBoard()[i][j].getTrueSprite())
+                            if(not self.getSpriteBoard()[i][j].getValue()):
+                                self.revealAllEmpty(board,i,j)
     
     #Assign each tiles adjacentMines and trueSprite attributes
     def setTrueSprites(self, board):
@@ -142,7 +145,7 @@ class Display:
             yIndex = int(clickY/40)
             if(not self.getSpriteBoard()[yIndex][xIndex].getCurrSprite() == "Flag"):
                 if(not board.getGenerated()):
-                    board.generate(yIndex,xIndex)
+                    board.generate(xIndex,yIndex)
                     self.setTrueSprites(board)
                 self.getSpriteBoard()[yIndex][xIndex].setRevealed(True)
                 image = self.getSpriteBoard()[yIndex][xIndex].getTrueSprite()
@@ -187,6 +190,9 @@ class Display:
             for j in range (constants.rows):
                 if(self.getSpriteBoard()[i][j].getValue() and self.getSpriteBoard()[i][j].getCurrSprite() != "Boom"):
                     self.getSpriteBoard()[i][j].setCurrSprite("Mine")
+                    self.updateSprite(i, j, self.getSpriteBoard()[i][j].getCurrSprite())
+                if(not self.getSpriteBoard()[i][j].getValue() and self.getSpriteBoard()[i][j].getCurrSprite() == "Flag"):
+                    self.getSpriteBoard()[i][j].setCurrSprite("Incorrect")
                     self.updateSprite(i, j, self.getSpriteBoard()[i][j].getCurrSprite())
 
     #Displays the Lose Sprite
