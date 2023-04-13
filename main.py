@@ -10,7 +10,10 @@ from random import *
 pygame.init()
 pygame.display.init()
 
-class game:  
+class game:
+    def __init__(self):
+        self.playing = True
+    
     def playGame():
         inProgress = True
         gameBoard = Board()
@@ -18,13 +21,17 @@ class game:
         
         while(inProgress):
             mouseButton, clickX, clickY = gameDisplay.getMouseInput()
-            if(mouseButton == "LEFT"):
-                gameDisplay.click(clickX, clickY, gameBoard)
-            if(mouseButton == "RIGHT"):
-                gameDisplay.flag(clickX, clickY, gameBoard)
-    
+            if(gameDisplay.getInMenu()):
+                gameBoard.setGenerated(False)
+                inProgress = gameDisplay.clickMenu(clickX, clickY)
+            else:
+                if(mouseButton == "LEFT"):
+                    gameDisplay.click(clickX, clickY, gameBoard)
+                if(mouseButton == "RIGHT"):
+                    gameDisplay.flag(clickX, clickY, gameBoard)
+        return inProgress
     if __name__ == '__main__':
         playing = True
         while(playing):
-            playGame()
+            playing = playGame()
         

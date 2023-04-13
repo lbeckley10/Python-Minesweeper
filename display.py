@@ -7,12 +7,56 @@ from tile import *
 
 #Class that deals with creating and updating the sprites displayed
 class Display:
-
-    #Initializes the display to show all "Covered" sprites
+    
     def __init__(self):
+        self.inProgress = True
+        self.noOfFlags = 0
+        self.spriteBoard = 0
+        self.inMenu = True
         pygame.init()
         pygame.display.init()
+        self.gameDisplay = pygame.display.set_mode(constants.size)
+        pygame.display.set_caption("Minesweeper")
+        self.displayMenu()
+        
+    #Displays the main menu
+    def displayMenu(self):
+        pygame.init()
+        pygame.display.init()
+        self.inProgress = True
+        self.inMenu = True
+        self.gameDisplay.fill((255,255,255))
+        bg = SpriteSheet('assets/background.png').image_at((0,0,4,4))
+        bg = pygame.transform.scale(bg, (640, 640))
+        title = SpriteSheet('assets/Title.png').image_at((0,0,81,19))
+        title = pygame.transform.scale(title, (324, 76))
+        play = SpriteSheet('assets/Play.png').image_at((0,0,23,11))
+        play = pygame.transform.scale(play, (92, 44))
+        quit = SpriteSheet('assets/Quit.png').image_at((0,0,23,11))
+        quit = pygame.transform.scale(quit, (92, 44))
+        self.gameDisplay.blit(bg, (0,0))
+        self.gameDisplay.blit(title, (158,122))
+        self.gameDisplay.blit(play, (274,218))
+        self.gameDisplay.blit(quit, (274,282))    
+        pygame.display.flip()
 
+    #Checks main menu clicks
+    def clickMenu(self, clickX, clickY):
+        inGame = True
+        playBox = constants.playBox
+        quitBox = constants.quitBox
+        if(clickX <= playBox[1] and clickX >= playBox[0] and clickY <= playBox[3] and clickY >= playBox[2]):
+            self.inMenu = False
+            self.initializeGame()
+        if(clickX <= quitBox[1] and clickX >= quitBox[0] and clickY <= quitBox[3] and clickY >= quitBox[2]):
+            inGame = False
+        return inGame
+    
+    #Initializes the display to show all "Covered" sprites
+    def initializeGame(self):
+        pygame.init()
+        pygame.display.init()
+        self.gameDisplay.fill((255,255,255))
         self.inProgress = True
 
         self.noOfFlags = 0
@@ -160,28 +204,31 @@ class Display:
                     self.inProgress = False
                     self.displayWin()
                 self.revealIfFound(board,yIndex,xIndex)
+        else:
+            self.displayMenu()
 
                 
                 
     
     #Process the users attempt to place a flag
     def flag(self, clickX, clickY, board):
-        xIndex = int(clickX/40)
-        yIndex = int(clickY/40)
-        image = ""
-        if(self.getSpriteBoard()[yIndex][xIndex].getCurrSprite() == "Flag"):
-            image = "Covered"
-            self.getSpriteBoard()[yIndex][xIndex].setCurrSprite(image)
-            self.updateSprite(yIndex, xIndex, image)
-            self.noOfFlags = self.noOfFlags - 1
-        elif(self.getSpriteBoard()[yIndex][xIndex].getCurrSprite() == "Covered" and self.noOfFlags < constants.noOfMines):
-            image = "Flag"
-            self.getSpriteBoard()[yIndex][xIndex].setCurrSprite(image)
-            self.updateSprite(yIndex, xIndex, image)
-            self.noOfFlags = self.noOfFlags + 1
-        if(self.checkWin(board)):
-                self.inProgress = False
-                self.displayWin()
+        if(self.inProgress):
+            xIndex = int(clickX/40)
+            yIndex = int(clickY/40)
+            image = ""
+            if(self.getSpriteBoard()[yIndex][xIndex].getCurrSprite() == "Flag"):
+                image = "Covered"
+                self.getSpriteBoard()[yIndex][xIndex].setCurrSprite(image)
+                self.updateSprite(yIndex, xIndex, image)
+                self.noOfFlags = self.noOfFlags - 1
+            elif(self.getSpriteBoard()[yIndex][xIndex].getCurrSprite() == "Covered" and self.noOfFlags < constants.noOfMines):
+                image = "Flag"
+                self.getSpriteBoard()[yIndex][xIndex].setCurrSprite(image)
+                self.updateSprite(yIndex, xIndex, image)
+                self.noOfFlags = self.noOfFlags + 1
+            if(self.checkWin(board)):
+                    self.inProgress = False
+                    self.displayWin()
         
         
     #Reveal location of all mines if lost
@@ -223,9 +270,12 @@ class Display:
     def getSpriteBoard(self):
         return self.spriteBoard
     
-    #Setter function for spriteBoard attribute
+    #Getter function for inMenu attribute
+    def getInMenu(self):
+        return self.inMenu
+    #Setter function for inMenu attribute
     def setSpriteBoard(self, tile, x, y):
-        self.spriteBoard[x][y] = tile    
+        self.spriteBoard[x][y] = tile  
 
     #Getter function for gameDisplay attribute
     def getGameDisplay(self):

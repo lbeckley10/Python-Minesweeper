@@ -11,8 +11,15 @@ class Board:
         self.generated = False
         
         
+    #Clears the current game board
+    def clear(self):
+        for i in range(constants.cols):
+            for j in range(constants.rows):
+                self.gameBoard[i][j] = 0
+    
     #Place the mines randomly throughout the 
     def generate(self,row,col):
+        self.clear()
         emptySpots = set()
         #Add every spot on board to the set of valid spots
         for i in range(16):
@@ -52,6 +59,10 @@ class Board:
     #Return the generated attribute
     def getGenerated(self):
         return self.generated
+    
+    #Sets the generated attribute
+    def setGenerated(self, generated):
+        self.generated = generated
 
     #Return gameBoard attribute of self
     def getGameBoard(self):

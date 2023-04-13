@@ -13,6 +13,12 @@ noOfMines = 40
 #Rectangle for game over sprite
 gameOverSquare = (0,0,22,19)
 
+#Hitbox for play button
+playBox = (274, 366, 218, 262)
+
+#Hitbox for quit button
+quitBox = (274, 366, 282, 326)
+
 #Maps the different sprite names to their rectangle locations in the spritesheet
 spriteMap = {
     "1":(0,0,16,16), "2":(17,0,16,16), "3":(34,0,16,16), "4":(51,0,16,16), "5":(68,0,16,16),
