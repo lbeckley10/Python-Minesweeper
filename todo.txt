@@ -1,0 +1,6 @@
+TODO:
+1. Main Menu
+2. Different Difficulties
+    -Board Sizes
+    -Number of mines
+3. Stats
