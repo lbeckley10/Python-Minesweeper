@@ -30,6 +30,7 @@ class game:
                 if(mouseButton == "RIGHT"):
                     gameDisplay.flag(clickX, clickY, gameBoard)
         return inProgress
+    
     if __name__ == '__main__':
         playing = True
         while(playing):
