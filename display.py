@@ -132,8 +132,11 @@ class Display:
                 cLowerBound = 0
             if(col == 15):
                 cUpperBound = 15
+            count = 0
             for i in range(rLowerBound, rUpperBound+1):
                 for j in range(cLowerBound, cUpperBound+1):
+                    if(self.getSpriteBoard()[i][j].getCurrSprite() == "Flag"):
+                        count = count + 1
                     if(self.getSpriteBoard()[i][j].getCurrSprite() == "Flag" and self.getSpriteBoard()[i][j].getValue() == 0):
                         foundAll = False
                     if(self.getSpriteBoard()[i][j].getCurrSprite() != "Flag" and self.getSpriteBoard()[i][j].getValue() == 1):
@@ -146,6 +149,13 @@ class Display:
                             self.updateSprite(i,j, self.getSpriteBoard()[i][j].getTrueSprite())
                             if(not self.getSpriteBoard()[i][j].getValue()):
                                 self.revealAllEmpty(board,i,j)
+            else:
+                if(count == self.getSpriteBoard()[row][col].getAdjacentMines()):
+                    print(count)
+                    print(self.getSpriteBoard()[row][col].getAdjacentMines())
+                    self.inProgress = False
+                    self.revealAllMines()
+                    self.displayLose()
     
     #Assign each tiles adjacentMines and trueSprite attributes
     def setTrueSprites(self, board):

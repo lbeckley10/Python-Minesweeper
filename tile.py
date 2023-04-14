@@ -29,7 +29,6 @@ class Tile:
     def countAdjacentMines(self, board):
         row = int(self.coords[0]/40)
         col = int(self.coords[1]/40)
-        count = 0
         if(board.getGameBoard()[row][col] == 0):
             rLowerBound = row - 1
             rUpperBound = row + 1
@@ -46,9 +45,9 @@ class Tile:
             for i in range(rLowerBound, rUpperBound+1):
                 for j in range(cLowerBound, cUpperBound+1):
                     if(board.getGameBoard()[i][j] == 1):
-                        count = count + 1
-            if(count != 0):
-                self.trueSprite = str(count)
+                        self.adjacentMines = self.adjacentMines + 1
+            if(self.adjacentMines != 0):
+                self.trueSprite = str(self.adjacentMines)
         else:
             self.trueSprite = "Boom"
             self.value = 1
@@ -105,3 +104,7 @@ class Tile:
     #Function to return the value attribute
     def  getValue(self):
         return self.value
+
+    #Function to return the adjacentMines attribute
+    def  getAdjacentMines(self):
+        return self.adjacentMines
