@@ -6,6 +6,7 @@ from display import *
 import constants
 import time
 from random import *
+from behavior import *
 
 pygame.init()
 pygame.display.init()
@@ -20,15 +21,15 @@ class game:
         gameDisplay = Display()
         
         while(inProgress):
-            mouseButton, clickX, clickY = gameDisplay.getMouseInput()
+            mouseButton, clickX, clickY = behavior.getMouseInput()
             if(gameDisplay.getInMenu()):
                 gameBoard.setGenerated(False)
-                inProgress = gameDisplay.clickMenu(clickX, clickY)
+                inProgress = behavior.clickMenu(gameDisplay, clickX, clickY)
             else:
                 if(mouseButton == "LEFT"):
-                    gameDisplay.click(clickX, clickY, gameBoard)
+                    behavior.click(gameDisplay, clickX, clickY, gameBoard)
                 if(mouseButton == "RIGHT"):
-                    gameDisplay.flag(clickX, clickY, gameBoard)
+                    behavior.flag(gameDisplay, clickX, clickY, gameBoard)
         return inProgress
     
     if __name__ == '__main__':

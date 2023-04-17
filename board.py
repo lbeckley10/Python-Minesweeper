@@ -22,8 +22,8 @@ class Board:
         self.clear()
         emptySpots = set()
         #Add every spot on board to the set of valid spots
-        for i in range(16):
-            for j in range(16):
+        for i in range(constants.cols):
+            for j in range(constants.rows):
                 emptySpots.add((i,j))
         rLowerBound = row - 1
         rUpperBound = row + 1
