@@ -4,6 +4,10 @@
 #Number of rows and columns for the game board matrices
 rows, cols = (16,16)
 
+#Scale for sprites
+xScale = 640/cols
+yScale = 640/rows
+
 #Size of display window
 size = [640,640]
 

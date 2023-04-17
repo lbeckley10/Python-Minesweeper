@@ -1,6 +1,7 @@
 #Author: Landon Beckley
 import pygame, sys
 from spritesheet import SpriteSheet
+import constants
 
 #Tile object for each individual tile on the board
 class Tile:
@@ -22,13 +23,13 @@ class Tile:
         pygame.init()
         sprites = SpriteSheet('assets/minesweeper_spritesheet.png')
         im = sprites.image_at(square)
-        self.image = pygame.transform.scale(im, (40,40))
+        self.image = pygame.transform.scale(im, (constants.yScale, constants.xScale))
         self.coords = coords
 
     #Count the adjacent mines for each tile and assign it to trueSprite attribute
     def countAdjacentMines(self, board):
-        row = int(self.coords[0]/40)
-        col = int(self.coords[1]/40)
+        row = int(self.coords[0]/constants.xScale)
+        col = int(self.coords[1]/constants.yScale)
         if(board.getGameBoard()[row][col] == 0):
             rLowerBound = row - 1
             rUpperBound = row + 1
@@ -63,7 +64,7 @@ class Tile:
         pygame.init()
         sprites = SpriteSheet('assets/minesweeper_spritesheet.png')
         im = sprites.image_at(square)
-        self.image = pygame.transform.scale(im, (40,40))
+        self.image = pygame.transform.scale(im, (constants.yScale,constants.xScale))
 
     #returns coords attribute
     def getCoords(self):
