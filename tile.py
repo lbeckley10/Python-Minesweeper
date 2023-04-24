@@ -28,8 +28,8 @@ class Tile:
 
     #Count the adjacent mines for each tile and assign it to trueSprite attribute
     def countAdjacentMines(self, board):
-        row = int(self.coords[0]/constants.xScale)
-        col = int(self.coords[1]/constants.yScale)
+        row = int(self.coords[0]/constants.yScale)
+        col = int(self.coords[1]/constants.xScale)
         if(board.getGameBoard()[row][col] == 0):
             rLowerBound = row - 1
             rUpperBound = row + 1
@@ -37,12 +37,12 @@ class Tile:
             cUpperBound = col + 1
             if(row == 0):
                 rLowerBound = 0
-            if(row == 15):
-                rUpperBound = 15
+            if(row == constants.rows-1):
+                rUpperBound = constants.rows-1
             if(col == 0):
                 cLowerBound = 0
-            if(col == 15):
-                cUpperBound = 15
+            if(col == constants.cols-1):
+                cUpperBound = constants.cols-1
             for i in range(rLowerBound, rUpperBound+1):
                 for j in range(cLowerBound, cUpperBound+1):
                     if(board.getGameBoard()[i][j] == 1):

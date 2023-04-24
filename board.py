@@ -32,25 +32,25 @@ class Board:
         if(row == 0):
             rLowerBound = 0
             rUpperBound = row + 2
-        if(row == 15):
-            rUpperBound = 15
+        if(row == constants.rows-1):
+            rUpperBound = constants.rows-1
             rLowerBound = row - 2
         if(col == 0):
             cLowerBound = 0
             cUpperBound = col + 2
-        if(col == 15):
-            cUpperBound = 15
+        if(col == constants.cols-1):
+            cUpperBound = constants.cols-1
             cLowerBound = col - 2
         offLimits = set()
         for i in range(rLowerBound, rUpperBound+1):
             for j in range(cLowerBound, cUpperBound + 1):
                 offLimits.add((i, j))
         for k in range(constants.noOfMines):
-            i = random.randint(0,15)
-            j = random.randint(0,15)
+            i = random.randint(0,constants.cols-1)
+            j = random.randint(0,constants.rows-1)
             while(not((i,j) in emptySpots) or ((i,j) in offLimits)):
-                i = random.randint(0,15)
-                j = random.randint(0,15)
+                i = random.randint(0,constants.rows-1)
+                j = random.randint(0,constants.cols-1)
             emptySpots.remove((i,j))
             self.gameBoard[i][j] = 1
         self.generated = True

@@ -68,7 +68,7 @@ class Display:
                 self.spriteBoard[i][j].assign(constants.spriteMap.get("Covered"), (xCoord, yCoord))
                 self.gameDisplay.blit(self.spriteBoard[i][j].getImage(), (xCoord, yCoord))
                 xCount += 1
-                if(xCount > 15):
+                if(xCount > constants.cols-1):
                     xCount = 0
                     yCount += 1
         pygame.display.flip()
