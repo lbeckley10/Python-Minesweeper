@@ -19,7 +19,7 @@ class behavior:
             display.setInMenu(False)
             display.initializeGame()
         if(clickX <= quitBox[1] and clickX >= quitBox[0] and clickY <= quitBox[3] and clickY >= quitBox[2]):
-            inGame = False
+            sys.exit()
         return inGame
 
     #Reveal all adjacent empty tiles utilizing Depth-First Search Algorithm
